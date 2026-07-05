@@ -4,6 +4,8 @@
 
 『Python Distilled』の各章の内容をベースに、計算機科学および数学の問題を作成しました。
 
+https://hayaosuzuki.github.io/exercise-for-python-distilled/
+
 ## セットアップ
 
 ```
