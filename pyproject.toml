@@ -61,6 +61,7 @@ ban-relative-imports = "all"
 "references/ch07/p0752_hash_consing.py" = ["ANN401"]
 "references/ch09/p0950_utf8_codec.py" = ["C901"]
 "references/ch09/p0954_bounded_gather.py" = ["ANN401"]
+"references/ch10/p1002_adjacent_differences.py" = ["RUF007"]
 "references/ch10/p1051_miller_rabin.py" = ["C901"]
 "tests/**" = [
     "S101",      # pytest の assert を許容する。
@@ -97,4 +98,5 @@ python-version = "3.14"
 
 [tool.ty.src]
 include = ["references", "tests", "tools"]
+
 
