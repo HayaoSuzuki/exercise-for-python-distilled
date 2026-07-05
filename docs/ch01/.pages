@@ -1,0 +1,6 @@
+title: 第1章 Pythonの基礎
+nav:
+  - 一覧: index.md
+  - ...
+order: asc
+order_by: filename

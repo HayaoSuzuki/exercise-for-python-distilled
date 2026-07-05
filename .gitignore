@@ -1,0 +1,7 @@
+.venv/
+.ruff_cache/
+__pycache__/
+site/
+.idea/
+.pytest_cache/
+PLAN.md

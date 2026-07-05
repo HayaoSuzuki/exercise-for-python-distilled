@@ -1,0 +1,99 @@
+[project]
+name = "exercise-for-python-distilled"
+version = "0.1.0"
+description = "An exercise book site for Python Distilled built with MkDocs Material."
+requires-python = ">=3.14"
+dependencies = []
+
+[dependency-groups]
+dev = [
+    "hypothesis>=6.156.1",
+    "mkdocs-awesome-pages-plugin>=2.10.1",
+    "mkdocs-material>=9.7.6",
+    "pyrefly>=1.1.1",
+    "pytest>=9.1.1",
+    "pytest-cov>=6.0",
+    "pytest-randomly>=4.1.0",
+    "ruff>=0.15.12",
+    "ty>=0.0.56",
+]
+
+[tool.ruff]
+target-version = "py314"
+line-length = 100
+fix = true
+
+[tool.ruff.lint]
+select = ["ALL"]
+fixable = ["ALL"]
+unfixable = []
+ignore = [
+    # 日本語の問題文・参照実装を含むため、全角記号を曖昧文字として扱わない。
+    "RUF001", "RUF002", "RUF003",
+    # Ruff formatter と競合するため、参照元と同じく無効化する。
+    "COM812",
+    # 演習用コードでは docstring の有無や英語式句読点を強制しない。
+    "D100", "D101", "D102", "D103", "D104", "D105", "D106", "D107",
+    "D203", "D213", "D400", "D403", "D415",
+    # 型注釈専用 import の TYPE_CHECKING 移動は、短い参照実装ではかえって読みにくい。
+    "TC001", "TC002", "TC003",
+    # 例外メッセージを局所的に読めるよう、短い参照実装では直書きを許容する。
+    "TRY003", "EM101", "EM102",
+    # pylint 系は主観的な複雑度・マジック値指摘が多いため参照元と同じく無効化する。
+    "PL",
+]
+
+[tool.ruff.lint.flake8-tidy-imports]
+ban-relative-imports = "all"
+
+[tool.ruff.lint.per-file-ignores]
+"references/ch03/p0301_backtracking_escape.py" = ["N818"]
+"references/ch03/p0303_transaction_context.py" = ["N801"]
+"references/ch03/p0305_binary_search_invariant.py" = ["S101"]
+"references/ch04/p0401_modular_ring.py" = ["SLF001"]
+"references/ch04/p0402_multiset_order.py" = ["SLF001"]
+"references/ch04/p0403_cons_list.py" = ["ANN401", "SLF001"]
+"references/ch05/p0501_function_composition.py" = ["ANN401"]
+"references/ch05/p0502_memoize_dp.py" = ["ANN401"]
+"references/ch05/p0504_trampoline_cps.py" = ["ANN401"]
+"references/ch05/p0505_auto_curry.py" = ["ANN401"]
+"references/ch06/p0602_same_fringe.py" = ["ANN401"]
+"references/ch07/p0703_hash_consing.py" = ["ANN401"]
+"references/ch09/p0901_utf8_codec.py" = ["C901"]
+"references/ch09/p0905_bounded_gather.py" = ["ANN401"]
+"references/ch10/p1002_miller_rabin.py" = ["C901"]
+"tests/**" = [
+    "S101",      # pytest の assert を許容する。
+    "PLR2004",   # 期待値はリテラルで書く方針を優先する。
+    "ANN001", "ANN002", "ANN003",
+    "ANN201", "ANN202", "ANN204", "ANN205", "ANN206",
+    "INP001",
+    "PT011",     # 例外メッセージは assert 側で検査するテストもある。
+    "ARG001", "ARG002",
+    "FBT",
+]
+"tools/check_doctests.py" = [
+    "S102",  # 参照実装を doctest 用名前空間に読み込むため exec を使う。
+    "T201",  # CLI として検証結果を標準出力へ表示する。
+]
+
+[tool.ruff.lint.mccabe]
+max-complexity = 10
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = ["-p", "no:cacheprovider"]
+
+[tool.pyrefly]
+project-includes = ["references", "tests", "tools"]
+search-path = ["."]
+python-version = "3.14"
+
+[tool.pyrefly.errors]
+missing-import = false
+
+[tool.ty.environment]
+python-version = "3.14"
+
+[tool.ty.src]
+include = ["references", "tests", "tools"]
