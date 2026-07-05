@@ -33,7 +33,8 @@ uv run python tools/check_doctests.py
 ## 執筆規約
 
 - 1問1ページ。ファイル名は `docs/chCC/CCNN-slug.md`（`CC`=章番号2桁、`NN`=章内番号2桁）
-- front matter に `title` / `description` / `difficulty`（3〜5）を書く。難易度は内部データであり本文・一覧には表示しない
+- 基礎問題は `CC00` から、応用問題は `CC50` から番号を付ける
+- front matter に `title` / `description` / `difficulty`（2〜5）を書く。難易度は内部データであり本文・一覧には表示しない
 - 見出しは `## 問題` → `## 制約` → `## 例`（doctest 形式）、必要に応じて `## 発展` `## 参考`
 - `## 参考` に『Python Distilled』の対応節を明記する
 - 各問題に対応する検証用実装を `references/chCC/pCCNN_slug.py` に置く

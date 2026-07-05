@@ -1,7 +1,7 @@
 ---
 title: "CCNN: タイトル"
 description: "この演習で扱う対象を1文で書く。"
-difficulty: 3
+difficulty: 2
 ---
 
 # CCNN: タイトル

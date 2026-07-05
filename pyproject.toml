@@ -47,21 +47,21 @@ ignore = [
 ban-relative-imports = "all"
 
 [tool.ruff.lint.per-file-ignores]
-"references/ch03/p0301_backtracking_escape.py" = ["N818"]
-"references/ch03/p0303_transaction_context.py" = ["N801"]
-"references/ch03/p0305_binary_search_invariant.py" = ["S101"]
-"references/ch04/p0401_modular_ring.py" = ["SLF001"]
-"references/ch04/p0402_multiset_order.py" = ["SLF001"]
-"references/ch04/p0403_cons_list.py" = ["ANN401", "SLF001"]
-"references/ch05/p0501_function_composition.py" = ["ANN401"]
-"references/ch05/p0502_memoize_dp.py" = ["ANN401"]
-"references/ch05/p0504_trampoline_cps.py" = ["ANN401"]
-"references/ch05/p0505_auto_curry.py" = ["ANN401"]
-"references/ch06/p0602_same_fringe.py" = ["ANN401"]
-"references/ch07/p0703_hash_consing.py" = ["ANN401"]
-"references/ch09/p0901_utf8_codec.py" = ["C901"]
-"references/ch09/p0905_bounded_gather.py" = ["ANN401"]
-"references/ch10/p1002_miller_rabin.py" = ["C901"]
+"references/ch03/p0350_backtracking_escape.py" = ["N818"]
+"references/ch03/p0352_transaction_context.py" = ["N801"]
+"references/ch03/p0354_binary_search_invariant.py" = ["S101"]
+"references/ch04/p0450_modular_ring.py" = ["SLF001"]
+"references/ch04/p0451_multiset_order.py" = ["SLF001"]
+"references/ch04/p0452_cons_list.py" = ["ANN401", "SLF001"]
+"references/ch05/p0550_function_composition.py" = ["ANN401"]
+"references/ch05/p0551_memoize_dp.py" = ["ANN401"]
+"references/ch05/p0553_trampoline_cps.py" = ["ANN401"]
+"references/ch05/p0554_auto_curry.py" = ["ANN401"]
+"references/ch06/p0651_same_fringe.py" = ["ANN401"]
+"references/ch07/p0752_hash_consing.py" = ["ANN401"]
+"references/ch09/p0950_utf8_codec.py" = ["C901"]
+"references/ch09/p0954_bounded_gather.py" = ["ANN401"]
+"references/ch10/p1051_miller_rabin.py" = ["C901"]
 "tests/**" = [
     "S101",      # pytest の assert を許容する。
     "PLR2004",   # 期待値はリテラルで書く方針を優先する。
@@ -97,3 +97,4 @@ python-version = "3.14"
 
 [tool.ty.src]
 include = ["references", "tests", "tools"]
+
