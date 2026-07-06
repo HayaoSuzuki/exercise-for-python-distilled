@@ -34,6 +34,17 @@ def test_int_range_contains_values_inside_bounds() -> None:
     assert actual is True
 
 
+def test_int_range_contains_start_bound() -> None:
+    # Arrange
+    interval = range_mod.IntRange(2, 5)
+
+    # Act
+    actual = 2 in interval
+
+    # Assert
+    assert actual is True
+
+
 def test_int_range_rejects_stop_bound() -> None:
     # Arrange
     interval = range_mod.IntRange(2, 5)
@@ -65,3 +76,25 @@ def test_int_range_treats_reversed_bounds_as_empty() -> None:
 
     # Assert
     assert actual == []
+
+
+def test_int_range_len_treats_reversed_bounds_as_zero() -> None:
+    # Arrange
+    interval = range_mod.IntRange(5, 2)
+
+    # Act
+    actual = len(interval)
+
+    # Assert
+    assert actual == 0
+
+
+def test_int_range_len_treats_empty_bounds_as_zero() -> None:
+    # Arrange
+    interval = range_mod.IntRange(3, 3)
+
+    # Act
+    actual = len(interval)
+
+    # Assert
+    assert actual == 0

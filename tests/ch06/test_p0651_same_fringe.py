@@ -19,6 +19,8 @@ def test_fringe_yields_leaves_from_left_to_right() -> None:
     [
         (((1, 2), 3), (1, (2, 3)), True),
         ((1, (2, 3)), (1, 2), False),
+        ((1, 2), (1, 2, None), False),
+        ((1, 2), (3, 4), False),
     ],
 )
 def test_same_fringe_compares_leaf_sequences(left: object, right: object, expected: bool) -> None:

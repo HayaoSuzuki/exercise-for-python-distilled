@@ -14,6 +14,17 @@ def test_reload_order_returns_dependencies_before_dependents() -> None:
     assert actual == ["config", "app", "web"]
 
 
+def test_reload_order_counts_each_independent_dependency() -> None:
+    # Arrange
+    deps = {"release": ["x", "y", "z"]}
+
+    # Act
+    actual = reload_mod.reload_order(deps)
+
+    # Assert
+    assert actual == ["x", "y", "z", "release"]
+
+
 def test_reload_order_ignores_duplicate_dependency_entries() -> None:
     # Arrange
     deps = {"app": ["config", "config"]}
@@ -34,4 +45,4 @@ def test_reload_order_rejects_dependency_cycle() -> None:
         reload_mod.reload_order(deps)
 
     # Assert
-    assert "dependency cycle detected" in str(exc_info.value)
+    assert str(exc_info.value) == "dependency cycle detected"

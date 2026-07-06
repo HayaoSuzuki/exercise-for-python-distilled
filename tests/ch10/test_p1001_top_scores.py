@@ -8,6 +8,7 @@ from references.ch10 import p1001_top_scores as scores_mod
     [
         ({"Ada": 10, "Grace": 12, "Alan": 12}, 2, [("Alan", 12), ("Grace", 12)]),
         ({"Ada": 10, "Grace": 7}, 10, [("Ada", 10), ("Grace", 7)]),
+        ({"Ada": 10, "Grace": 12}, 1, [("Grace", 12)]),
     ],
 )
 def test_top_scores_returns_highest_scores(

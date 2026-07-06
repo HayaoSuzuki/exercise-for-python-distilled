@@ -19,7 +19,7 @@ def test_miller_rabin_accepts_known_primes(n: int) -> None:
     assert actual is True
 
 
-@pytest.mark.parametrize("n", [-1, 0, 1, 4, 9, 221, 341])
+@pytest.mark.parametrize("n", [-1, 0, 1, 4, 9, 221, 341, 2047, 252601])
 def test_miller_rabin_rejects_known_composites(n: int) -> None:
     # Arrange
 
@@ -38,6 +38,16 @@ def test_miller_rabin_uses_supplied_bases() -> None:
 
     # Assert
     assert actual is True
+
+
+def test_miller_rabin_does_not_stop_at_a_base_divisible_by_n() -> None:
+    # Arrange
+
+    # Act
+    actual = mr_mod.is_probable_prime(9, bases=[9, 2])
+
+    # Assert
+    assert actual is False
 
 
 @FAST
@@ -61,4 +71,4 @@ def test_miller_rabin_rejects_non_integer_input() -> None:
         mr_mod.is_probable_prime(n)
 
     # Assert
-    assert "n must be an int" in str(exc_info.value)
+    assert str(exc_info.value) == "n must be an int"

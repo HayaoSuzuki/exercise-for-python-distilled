@@ -8,6 +8,8 @@ from references.ch01 import p0101_total_scores as scores_mod
     [
         ("Ada 10\nGrace 7\nAda 3\n", {"Ada": 13, "Grace": 7}),
         ("Alan -2\nAlan 5\n", {"Alan": 3}),
+        ("Ada 10\n\nGrace 7\n", {"Ada": 10, "Grace": 7}),
+        ("Ada 10\n   \nGrace 7\n", {"Ada": 10, "Grace": 7}),
     ],
 )
 def test_total_scores_sums_scores_by_name(text: str, expected: dict[str, int]) -> None:

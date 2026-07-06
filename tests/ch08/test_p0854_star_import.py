@@ -14,6 +14,17 @@ def test_star_exports_returns_public_names_without_all() -> None:
     assert actual == {"a", "func"}
 
 
+def test_star_exports_uses_dunder_all_from_namespace() -> None:
+    # Arrange
+    namespace: dict[str, object] = {"__all__": ["a", "c"], "a": 1, "b": 2, "c": 3}
+
+    # Act
+    actual = star_mod.star_exports(namespace)
+
+    # Assert
+    assert actual == {"a", "c"}
+
+
 def test_star_exports_uses_explicit_all_names() -> None:
     # Arrange
     namespace = {"__name__": "module", "a": 37, "func": object()}

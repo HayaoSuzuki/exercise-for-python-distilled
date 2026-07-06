@@ -36,6 +36,18 @@ def test_parse_chunks_rejects_incomplete_header() -> None:
     assert "チャンクヘッダが不完全" in str(exc_info.value)
 
 
+def test_parse_chunks_rejects_incomplete_header_after_first_chunk() -> None:
+    # Arrange
+    data = b"HEAD\x00\x00\x00\x00" + b"BOD"
+
+    # Act
+    with pytest.raises(ValueError) as exc_info:
+        chunks_mod.parse_chunks(data)
+
+    # Assert
+    assert str(exc_info.value) == "チャンクヘッダが不完全です（位置 8）"
+
+
 def test_parse_chunks_rejects_truncated_payload() -> None:
     # Arrange
     data = b"BODY\x00\x00\x00\x0ashort"

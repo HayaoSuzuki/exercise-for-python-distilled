@@ -47,6 +47,17 @@ def test_gather_bounded_limits_concurrent_tasks() -> None:
     assert actual == 2
 
 
+def test_gather_bounded_accepts_minimum_valid_limit() -> None:
+    # Arrange
+    coros = [_square_after_yield(1)]
+
+    # Act
+    actual = asyncio.run(gather_mod.gather_bounded(coros, 1))
+
+    # Assert
+    assert actual == [1]
+
+
 def test_gather_bounded_rejects_non_positive_limit() -> None:
     # Arrange
     coros: list[Awaitable[Any]] = []
@@ -56,4 +67,4 @@ def test_gather_bounded_rejects_non_positive_limit() -> None:
         asyncio.run(gather_mod.gather_bounded(coros, 0))
 
     # Assert
-    assert "limit は 1 以上" in str(exc_info.value)
+    assert str(exc_info.value) == "limit は 1 以上でなければなりません"

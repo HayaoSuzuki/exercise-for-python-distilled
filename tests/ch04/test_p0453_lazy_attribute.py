@@ -20,9 +20,36 @@ def test_lazy_stats_reuses_cached_attribute_value() -> None:
     stats = lazy_mod.LazyStats([3, 1, 4, 1, 5])
 
     # Act
-    _ = stats.total
-    _ = stats.total
+    first = stats.total
+    second = stats.total
     actual = stats.computations
 
     # Assert
+    assert first == 14
+    assert second == 14
     assert actual == 1
+
+
+def test_lazy_stats_counts_each_distinct_attribute_computation() -> None:
+    # Arrange
+    stats = lazy_mod.LazyStats([3, 1, 4, 1, 5])
+
+    # Act
+    _ = stats.total
+    _ = stats.minimum
+    actual = stats.computations
+
+    # Assert
+    assert actual == 2
+
+
+def test_lazy_stats_unknown_attribute_raises_attribute_error() -> None:
+    # Arrange
+    stats = lazy_mod.LazyStats([1, 2, 3])
+
+    # Act
+    with pytest.raises(AttributeError) as exc_info:
+        _ = stats.unknown
+
+    # Assert
+    assert str(exc_info.value) == "'LazyStats' object has no attribute 'unknown'"

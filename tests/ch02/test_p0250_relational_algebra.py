@@ -65,3 +65,39 @@ def test_natural_join_returns_empty_list_when_either_relation_is_empty(
     # Assert
     assert actual == []
 
+
+@pytest.mark.parametrize(
+    ("students", "enrolls", "expected"),
+    [
+        (
+            [{"sid": 1, "name": "Asa"}],
+            [
+                {"sid": 1, "course": "Math"},
+                {"sid": 1, "course": "CS"},
+                {"sid": 2, "course": "Math"},
+            ],
+            [
+                {"sid": 1, "name": "Asa", "course": "Math"},
+                {"sid": 1, "name": "Asa", "course": "CS"},
+            ],
+        ),
+        (
+            [{"sid": 1, "name": "Asa"}, {"sid": 2, "name": "Ume"}],
+            [{"sid": 1, "course": "Math"}],
+            [{"sid": 1, "name": "Asa", "course": "Math"}],
+        ),
+    ],
+)
+def test_natural_join_handles_single_row_relation(
+    students: list[dict[str, object]],
+    enrolls: list[dict[str, object]],
+    expected: list[dict[str, object]],
+) -> None:
+    # Arrange
+
+    # Act
+    actual = rel.natural_join(students, enrolls)
+
+    # Assert
+    assert actual == expected
+

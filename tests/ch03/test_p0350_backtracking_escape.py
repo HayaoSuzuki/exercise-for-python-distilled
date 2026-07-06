@@ -45,3 +45,14 @@ def test_first_solution_returns_none_when_unsatisfiable(n: int) -> None:
 
     # Assert
     assert actual is None
+
+
+def test_found_exception_carries_solution_as_args() -> None:
+    # Arrange
+    solution = [1, 3, 0, 2]
+
+    # Act
+    exc = queens.Found(solution)
+
+    # Assert
+    assert exc.args == ([1, 3, 0, 2],)

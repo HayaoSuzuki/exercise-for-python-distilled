@@ -14,6 +14,37 @@ def test_bounded_counter_exposes_initial_value() -> None:
     assert actual == 2
 
 
+def test_bounded_counter_default_value_is_zero() -> None:
+    # Arrange
+    counter = counter_mod.BoundedCounter(5)
+
+    # Act
+    actual = counter.value
+
+    # Assert
+    assert actual == 0
+
+
+def test_bounded_counter_accepts_zero_limit() -> None:
+    # Arrange
+
+    # Act
+    counter = counter_mod.BoundedCounter(0)
+
+    # Assert
+    assert counter.value == 0
+
+
+def test_bounded_counter_accepts_value_equal_to_limit() -> None:
+    # Arrange
+
+    # Act
+    counter = counter_mod.BoundedCounter(5, 5)
+
+    # Assert
+    assert counter.value == 5
+
+
 def test_bounded_counter_increment_returns_new_value() -> None:
     # Arrange
     counter = counter_mod.BoundedCounter(5, 2)
@@ -23,6 +54,39 @@ def test_bounded_counter_increment_returns_new_value() -> None:
 
     # Assert
     assert actual == 4
+
+
+def test_bounded_counter_increment_default_amount_is_one() -> None:
+    # Arrange
+    counter = counter_mod.BoundedCounter(5, 2)
+
+    # Act
+    actual = counter.increment()
+
+    # Assert
+    assert actual == 3
+
+
+def test_bounded_counter_increment_accepts_amount_of_one() -> None:
+    # Arrange
+    counter = counter_mod.BoundedCounter(5, 2)
+
+    # Act
+    actual = counter.increment(1)
+
+    # Assert
+    assert actual == 3
+
+
+def test_bounded_counter_increment_accepts_value_reaching_limit() -> None:
+    # Arrange
+    counter = counter_mod.BoundedCounter(2)
+
+    # Act
+    actual = counter.increment(2)
+
+    # Assert
+    assert actual == 2
 
 
 def test_bounded_counter_reset_returns_zero() -> None:

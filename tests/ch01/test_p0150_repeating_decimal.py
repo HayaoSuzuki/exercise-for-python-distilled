@@ -66,4 +66,4 @@ def test_repetend_rejects_invalid_fraction(p: int, q: int) -> None:
         dec.repetend(p, q)
 
     # Assert
-    assert "p must be >= 0 and q must be >= 1" in str(exc_info.value)
+    assert str(exc_info.value) == "p must be >= 0 and q must be >= 1"

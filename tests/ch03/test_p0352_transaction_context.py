@@ -31,3 +31,16 @@ def test_transaction_rolls_back_changes_when_block_raises() -> None:
 
     # Assert
     assert config == {"host": "localhost", "port": 8080}
+
+
+def test_transaction_snapshot_starts_as_none_and_guards_exit_rollback() -> None:
+    # Arrange
+    config = {"host": "localhost", "port": 8080}
+    tx = tx_mod.transaction(config)
+
+    # Act
+    tx.__exit__(RuntimeError, RuntimeError("boom"), None)
+
+    # Assert
+    assert tx.snapshot is None
+    assert config == {"host": "localhost", "port": 8080}

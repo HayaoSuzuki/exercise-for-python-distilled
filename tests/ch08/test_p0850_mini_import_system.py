@@ -13,6 +13,7 @@ def test_load_returns_modules_completed_in_dependency_order() -> None:
 
     # Assert
     assert actual == ["config", "utils", "app"]
+    assert cache == {"config": [], "utils": ["config"], "app": ["config", "utils"]}
 
 
 def test_load_returns_empty_list_for_cached_module() -> None:

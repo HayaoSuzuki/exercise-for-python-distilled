@@ -5,3 +5,6 @@ site/
 .idea/
 .pytest_cache/
 PLAN.md
+.mutmut-cache
+mutants/
+html/

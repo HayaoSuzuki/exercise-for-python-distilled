@@ -50,4 +50,4 @@ def test_iterate_rejects_negative_count() -> None:
         compose_mod.iterate(lambda x: x, count)
 
     # Assert
-    assert "non-negative" in str(exc_info.value)
+    assert str(exc_info.value) == "n must be non-negative"

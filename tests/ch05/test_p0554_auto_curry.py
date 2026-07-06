@@ -54,3 +54,34 @@ def test_curry_raises_type_error_for_too_many_arguments() -> None:
 
     # Assert
     assert exc_info.type is TypeError
+
+
+def test_curry_rejects_zero_argument_function() -> None:
+    # Arrange
+    def f():
+        return 1
+
+    # Act
+    with pytest.raises(TypeError) as exc_info:
+        curry_mod.curry(f)
+
+    # Assert
+    assert str(exc_info.value) == "curry() requires at least one positional parameter"
+
+
+@pytest.mark.parametrize(
+    "f",
+    [
+        pytest.param(lambda *, x: x, id="keyword_only_parameter"),
+        pytest.param(lambda x=1: x, id="positional_parameter_with_default"),
+    ],
+)
+def test_curry_rejects_non_required_positional_parameters(f) -> None:
+    # Arrange
+
+    # Act
+    with pytest.raises(TypeError) as exc_info:
+        curry_mod.curry(f)
+
+    # Assert
+    assert str(exc_info.value) == "curry() supports required positional parameters only"

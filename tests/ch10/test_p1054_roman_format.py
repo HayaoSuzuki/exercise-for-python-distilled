@@ -12,6 +12,8 @@ from references.ch10 import p1054_roman_format as roman_mod
         (1994, "r", "MCMXCIV"),
         (42, "d", "42"),
         (9, "", "IX"),
+        (1, "r", "I"),
+        (3999, "r", "MMMCMXCIX"),
     ],
 )
 def test_roman_format_returns_expected_text(value: int, spec: str, expected: str) -> None:
@@ -34,7 +36,7 @@ def test_roman_rejects_values_outside_supported_range(value: int) -> None:
         roman_mod.Roman(value)
 
     # Assert
-    assert "range 1 to 3999" in str(exc_info.value)
+    assert str(exc_info.value) == "value must be in the range 1 to 3999"
 
 
 def test_roman_rejects_non_integer_value() -> None:
@@ -46,7 +48,7 @@ def test_roman_rejects_non_integer_value() -> None:
         roman_mod.Roman(value)
 
     # Assert
-    assert "value must be an int" in str(exc_info.value)
+    assert str(exc_info.value) == "value must be an int"
 
 
 def test_roman_rejects_unknown_format_code() -> None:

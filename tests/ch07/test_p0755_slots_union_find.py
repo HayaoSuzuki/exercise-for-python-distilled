@@ -16,6 +16,69 @@ def test_disjoint_set_union_connects_components() -> None:
     assert actual is True
 
 
+def test_disjoint_set_accepts_zero_size() -> None:
+    # Arrange
+
+    # Act
+    disjoint_set = uf_mod.DisjointSet(0)
+
+    # Assert
+    assert disjoint_set.count == 0
+
+
+def test_disjoint_set_rejects_negative_size() -> None:
+    # Arrange
+
+    # Act
+    with pytest.raises(ValueError) as exc_info:
+        uf_mod.DisjointSet(-1)
+
+    # Assert
+    assert str(exc_info.value) == "n must be non-negative"
+
+
+def test_disjoint_set_union_returns_whether_a_merge_happened() -> None:
+    # Arrange
+    disjoint_set = uf_mod.DisjointSet(2)
+
+    # Act
+    first = disjoint_set.union(0, 1)
+    second = disjoint_set.union(0, 1)
+
+    # Assert
+    assert first is True
+    assert second is False
+
+
+def test_disjoint_set_find_compresses_a_two_level_chain() -> None:
+    # Arrange
+    disjoint_set = uf_mod.DisjointSet(4)
+    disjoint_set.union(0, 1)
+    disjoint_set.union(2, 3)
+    disjoint_set.union(1, 3)
+
+    # Act
+    actual = disjoint_set.find(3)
+
+    # Assert
+    assert actual == 0
+
+
+def test_disjoint_set_union_uses_rank_to_choose_new_root() -> None:
+    # Arrange
+    disjoint_set = uf_mod.DisjointSet(8)
+    assert disjoint_set.union(0, 1) is True
+    assert disjoint_set.union(4, 5) is True
+    assert disjoint_set.union(6, 7) is True
+    assert disjoint_set.union(4, 6) is True
+
+    # Act
+    assert disjoint_set.union(0, 4) is True
+
+    # Assert
+    assert disjoint_set.find(0) == 4
+
+
 def test_disjoint_set_count_decreases_after_successful_unions() -> None:
     # Arrange
     disjoint_set = uf_mod.DisjointSet(5)

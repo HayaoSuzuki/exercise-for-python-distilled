@@ -39,4 +39,16 @@ def test_c3_linearization_raises_type_error_for_inconsistent_order() -> None:
         c3_mod.linearize("Z", graph)
 
     # Assert
-    assert "MRO" in str(exc_info.value)
+    assert str(exc_info.value) == "Cannot create a consistent method resolution order (MRO) for Z"
+
+
+def test_c3_linearization_raises_type_error_for_direct_cycle() -> None:
+    # Arrange
+    graph = {"A": ["B"], "B": ["A"]}
+
+    # Act
+    with pytest.raises(TypeError) as exc_info:
+        c3_mod.linearize("A", graph)
+
+    # Assert
+    assert str(exc_info.value) == "Cannot create a consistent method resolution order (MRO) for A"

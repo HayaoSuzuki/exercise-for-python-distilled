@@ -14,6 +14,26 @@ def test_bank_account_exposes_owner_and_balance() -> None:
     assert actual == ("Ada", 100)
 
 
+def test_bank_account_default_balance_is_zero() -> None:
+    # Arrange
+
+    # Act
+    account = account_mod.BankAccount("Ada")
+
+    # Assert
+    assert account.balance == 0
+
+
+def test_bank_account_accepts_zero_initial_balance() -> None:
+    # Arrange
+
+    # Act
+    account = account_mod.BankAccount("Ada", 0)
+
+    # Assert
+    assert account.balance == 0
+
+
 def test_bank_account_deposit_returns_new_balance() -> None:
     # Arrange
     account = account_mod.BankAccount("Ada", 100)
@@ -47,6 +67,18 @@ def test_bank_account_from_text_builds_account() -> None:
     assert (account.owner, account.balance) == ("Grace", 200)
 
 
+def test_bank_account_from_text_splits_only_on_first_colon() -> None:
+    # Arrange
+    text = "A:B:300"
+
+    # Act
+    with pytest.raises(ValueError) as exc_info:
+        account_mod.BankAccount.from_text(text)
+
+    # Assert
+    assert str(exc_info.value) == "invalid literal for int() with base 10: 'B:300'"
+
+
 def test_bank_account_rejects_negative_initial_balance() -> None:
     # Arrange
 
@@ -69,6 +101,28 @@ def test_bank_account_deposit_rejects_non_positive_amount(amount: int) -> None:
 
     # Assert
     assert str(exc_info.value) == "amount must be positive"
+
+
+def test_bank_account_withdraw_allows_withdrawing_full_balance() -> None:
+    # Arrange
+    account = account_mod.BankAccount("Ada", 100)
+
+    # Act
+    actual = account.withdraw(100)
+
+    # Assert
+    assert actual == 0
+
+
+def test_bank_account_deposit_accepts_amount_of_one() -> None:
+    # Arrange
+    account = account_mod.BankAccount("Ada", 100)
+
+    # Act
+    actual = account.deposit(1)
+
+    # Assert
+    assert actual == 101
 
 
 def test_bank_account_withdraw_rejects_overdraft() -> None:

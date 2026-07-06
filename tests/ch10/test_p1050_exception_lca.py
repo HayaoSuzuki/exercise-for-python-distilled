@@ -34,7 +34,7 @@ def test_common_handler_rejects_empty_input() -> None:
         lca_mod.common_handler()
 
     # Assert
-    assert "at least one exception class" in str(exc_info.value)
+    assert str(exc_info.value) == "at least one exception class is required"
 
 
 def test_common_handler_rejects_non_exception_class() -> None:

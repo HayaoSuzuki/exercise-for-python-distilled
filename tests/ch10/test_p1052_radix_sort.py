@@ -15,6 +15,12 @@ from tests._helpers import FAST
         ([7], 10, [7]),
         ([170, 45, 75, 90, 802, 24, 2, 66], 10, [2, 24, 45, 66, 75, 90, 170, 802]),
         ([15, 3, 8, 0, 3], 2, [0, 3, 3, 8, 15]),
+        ([100, 5], 10, [5, 100]),
+        (
+            [1_000_000_000_000_000_007, 1_000_000_000_000_000_000],
+            10,
+            [1_000_000_000_000_000_000, 1_000_000_000_000_000_007],
+        ),
     ],
 )
 def test_radix_sort_returns_numbers_in_ascending_order(
@@ -50,7 +56,7 @@ def test_radix_sort_rejects_invalid_base(base: object) -> None:
         radix_mod.radix_sort(nums, cast("Any", base))
 
     # Assert
-    assert "base must be an integer >= 2" in str(exc_info.value)
+    assert str(exc_info.value) == "base must be an integer >= 2"
 
 
 @pytest.mark.parametrize("nums", [[-1], [1, 2.5]])
@@ -62,7 +68,7 @@ def test_radix_sort_rejects_invalid_elements(nums: list[object]) -> None:
         radix_mod.radix_sort(cast("Any", nums))
 
     # Assert
-    assert "all elements must be non-negative integers" in str(exc_info.value)
+    assert str(exc_info.value) == "all elements must be non-negative integers"
 
 
 @FAST

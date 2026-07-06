@@ -40,4 +40,4 @@ def test_queue_dequeue_raises_index_error_when_empty() -> None:
         queue.dequeue()
 
     # Assert
-    assert "dequeue from empty queue" in str(exc_info.value)
+    assert str(exc_info.value) == "dequeue from empty queue"

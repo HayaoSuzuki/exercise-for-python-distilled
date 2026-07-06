@@ -1,3 +1,5 @@
+from typing import Any, cast
+
 import pytest
 
 from references.ch10 import p1053_builtin_linear_algebra as matrix_mod
@@ -12,6 +14,18 @@ def test_transpose_swaps_rows_and_columns() -> None:
 
     # Assert
     assert actual == ((1, 4), (2, 5), (3, 6))
+
+
+def test_transpose_rejects_ragged_rows() -> None:
+    # Arrange
+    matrix = ((1, 2, 3), (4, 5))
+
+    # Act
+    with pytest.raises(ValueError) as exc_info:
+        matrix_mod.transpose(matrix)
+
+    # Assert
+    assert str(exc_info.value) == "zip() argument 2 is shorter than argument 1"
 
 
 def test_mat_mul_returns_matrix_product() -> None:
@@ -37,6 +51,29 @@ def test_mat_pow_returns_power_by_repeated_squaring() -> None:
     assert actual == ((89, 55), (55, 34))
 
 
+def test_mat_pow_rejects_negative_exponent() -> None:
+    # Arrange
+    matrix = ((1, 0), (0, 1))
+
+    # Act
+    with pytest.raises(ValueError) as exc_info:
+        matrix_mod.mat_pow(matrix, -1)
+
+    # Assert
+    assert str(exc_info.value) == "n must be a non-negative integer"
+
+
+def test_mat_pow_with_zero_exponent_returns_identity_matrix() -> None:
+    # Arrange
+    matrix = ((2, 0), (0, 2))
+
+    # Act
+    actual = matrix_mod.mat_pow(matrix, 0)
+
+    # Assert
+    assert actual == ((1, 0), (0, 1))
+
+
 def test_fib_returns_literal_fibonacci_number() -> None:
     # Arrange
 
@@ -45,6 +82,28 @@ def test_fib_returns_literal_fibonacci_number() -> None:
 
     # Assert
     assert actual == 354224848179261915075
+
+
+def test_fib_of_zero_returns_zero() -> None:
+    # Arrange
+
+    # Act
+    actual = matrix_mod.fib(0)
+
+    # Assert
+    assert actual == 0
+
+
+def test_fib_rejects_non_comparable_input() -> None:
+    # Arrange
+    n = cast("Any", "abc")
+
+    # Act
+    with pytest.raises(ValueError) as exc_info:
+        matrix_mod.fib(n)
+
+    # Assert
+    assert str(exc_info.value) == "n must be a non-negative integer"
 
 
 def test_mat_mul_rejects_dimension_mismatch() -> None:
@@ -57,7 +116,7 @@ def test_mat_mul_rejects_dimension_mismatch() -> None:
         matrix_mod.mat_mul(left, right)
 
     # Assert
-    assert "dimension mismatch" in str(exc_info.value)
+    assert str(exc_info.value) == "dimension mismatch: columns of a must equal rows of b"
 
 
 def test_mat_pow_rejects_non_square_matrix() -> None:
@@ -69,7 +128,7 @@ def test_mat_pow_rejects_non_square_matrix() -> None:
         matrix_mod.mat_pow(matrix, 2)
 
     # Assert
-    assert "square" in str(exc_info.value)
+    assert str(exc_info.value) == "m must be a square matrix"
 
 
 def test_fib_rejects_negative_index() -> None:
@@ -81,5 +140,5 @@ def test_fib_rejects_negative_index() -> None:
         matrix_mod.fib(n)
 
     # Assert
-    assert "non-negative integer" in str(exc_info.value)
+    assert str(exc_info.value) == "n must be a non-negative integer"
 

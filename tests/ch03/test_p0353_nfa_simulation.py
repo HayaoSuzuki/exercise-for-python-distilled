@@ -15,7 +15,7 @@ def second_from_last_one_delta() -> dict[tuple[str, str], set[str]]:
 
 @pytest.mark.parametrize(
     ("text", "expected"),
-    [("0110", True), ("0101", False), ("10", True), ("1", False)],
+    [("0110", True), ("0101", False), ("10", True), ("1", False), ("02", False)],
 )
 def test_nfa_accepts_returns_expected_result_for_input_string(
     second_from_last_one_delta: dict[tuple[str, str], set[str]], text: str, expected: bool

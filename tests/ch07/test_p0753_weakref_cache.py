@@ -14,6 +14,7 @@ def test_node_cache_reuses_live_node() -> None:
 
     # Assert
     assert actual is node
+    assert node.name == "a"
 
 
 def test_node_cache_drops_entry_after_last_strong_reference_disappears() -> None:

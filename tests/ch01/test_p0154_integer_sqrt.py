@@ -20,6 +20,7 @@ def test_isqrt_returns_integer_square_root(n: int, expected: int) -> None:
 
     # Assert
     assert actual == expected
+    assert isinstance(actual, int)
 
 
 @FAST
@@ -44,4 +45,4 @@ def test_isqrt_rejects_negative_input() -> None:
         isqrt_mod.isqrt(n)
 
     # Assert
-    assert "isqrt() argument must be nonnegative" in str(exc_info.value)
+    assert str(exc_info.value) == "isqrt() argument must be nonnegative"

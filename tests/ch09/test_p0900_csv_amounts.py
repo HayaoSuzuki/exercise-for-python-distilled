@@ -36,8 +36,22 @@ def test_sum_csv_amounts_accepts_quoted_commas() -> None:
     assert actual == {"green, tea": 4}
 
 
-@pytest.mark.parametrize("text", ["name\nspam\n", "amount\n1\n"])
+@pytest.mark.parametrize(
+    "text", ["name\nspam\n", "amount\n1\n", "name\n", "amount\n"]
+)
 def test_sum_csv_amounts_rejects_missing_required_columns(text: str) -> None:
+    # Arrange
+
+    # Act
+    with pytest.raises(ValueError) as exc_info:
+        csv_mod.sum_csv_amounts(text)
+
+    # Assert
+    assert str(exc_info.value) == "CSV must contain name and amount columns"
+
+
+@pytest.mark.parametrize("text", ["name,amount\nspam\n", "amount,name\n5\n"])
+def test_sum_csv_amounts_rejects_row_missing_required_value(text: str) -> None:
     # Arrange
 
     # Act

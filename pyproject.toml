@@ -10,6 +10,7 @@ dev = [
     "hypothesis>=6.156.1",
     "mkdocs-awesome-pages-plugin>=2.10.1",
     "mkdocs-material>=9.7.6",
+    "mutmut>=3.6.0",
     "pyrefly>=1.1.1",
     "pytest>=9.1.1",
     "pytest-cov>=6.0",
@@ -84,6 +85,23 @@ max-complexity = 10
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 addopts = ["-p", "no:cacheprovider"]
+
+[tool.mutmut]
+source_paths = [
+    "references/",
+]
+also_copy = [
+    "tests/",
+]
+pytest_add_cli_args_test_selection = [
+    "tests/",
+]
+do_not_mutate = [
+    "*/__init__.py",
+]
+pytest_add_cli_args = [
+    "-p", "no:randomly",
+]
 
 [tool.pyrefly]
 project-includes = ["references", "tests", "tools"]

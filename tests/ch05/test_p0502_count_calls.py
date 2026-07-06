@@ -26,6 +26,19 @@ def test_count_calls_forwards_arguments_and_return_value() -> None:
     assert actual == 5
 
 
+def test_count_calls_forwards_keyword_arguments() -> None:
+    # Arrange
+    def greet(name: str, *, greeting: str = "Hello") -> str:
+        return f"{greeting}, {name}"
+    counted = count_mod.count_calls(greet)
+
+    # Act
+    actual = counted("Bob", greeting="Hi")
+
+    # Assert
+    assert actual == "Hi, Bob"
+
+
 def test_count_calls_increments_after_each_call() -> None:
     # Arrange
     def double(x: int) -> int:

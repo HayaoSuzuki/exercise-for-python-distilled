@@ -40,4 +40,16 @@ def test_riffle_rejects_odd_length_deck() -> None:
         riffle_mod.riffle(deck)
 
     # Assert
-    assert "deck length must be even" in str(exc_info.value)
+    assert str(exc_info.value) == "deck length must be even"
+
+
+@pytest.mark.parametrize("n", [1, 3])
+def test_shuffle_order_rejects_invalid_n(n: int) -> None:
+    # Arrange
+
+    # Act
+    with pytest.raises(ValueError) as exc_info:
+        riffle_mod.shuffle_order(n)
+
+    # Assert
+    assert str(exc_info.value) == "n must be an even integer >= 2"

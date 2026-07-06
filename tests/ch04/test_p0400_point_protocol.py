@@ -1,3 +1,5 @@
+import pytest
+
 from references.ch04 import p0400_point_protocol as point_mod
 
 
@@ -33,6 +35,25 @@ def test_point2d_compares_equal_to_same_coordinates() -> None:
 
     # Assert
     assert actual is True
+
+
+@pytest.mark.parametrize(
+    ("left", "right"),
+    [
+        (point_mod.Point2D(3, 4), point_mod.Point2D(3, 5)),
+        (point_mod.Point2D(3, 4), point_mod.Point2D(5, 4)),
+    ],
+)
+def test_point2d_does_not_compare_equal_when_only_one_coordinate_matches(
+    left: point_mod.Point2D, right: point_mod.Point2D
+) -> None:
+    # Arrange
+
+    # Act
+    actual = left == right
+
+    # Assert
+    assert actual is False
 
 
 def test_point2d_does_not_compare_equal_to_tuple() -> None:

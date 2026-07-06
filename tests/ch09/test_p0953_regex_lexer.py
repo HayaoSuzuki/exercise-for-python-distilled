@@ -42,13 +42,19 @@ def test_tokenize_skips_whitespace_and_newlines() -> None:
     assert actual == [("NAME", "x"), ("NAME", "y")]
 
 
-def test_tokenize_reports_error_line_and_column() -> None:
+@pytest.mark.parametrize(
+    ("source", "expected_message"),
+    [
+        ("x = 1\ny $ 2", "2行3列: 予期しない文字 '$'"),
+        ("a $ 1", "1行3列: 予期しない文字 '$'"),
+    ],
+)
+def test_tokenize_reports_error_line_and_column(source: str, expected_message: str) -> None:
     # Arrange
-    source = "x = 1\ny $ 2"
 
     # Act
     with pytest.raises(SyntaxError) as exc_info:
         lexer_mod.tokenize(source)
 
     # Assert
-    assert "2行3列" in str(exc_info.value)
+    assert str(exc_info.value) == expected_message

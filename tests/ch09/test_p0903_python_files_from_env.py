@@ -62,8 +62,9 @@ def test_python_files_from_env_rejects_non_directory_path(tmp_path, monkeypatch)
     monkeypatch.setenv("PY_SOURCE_DIR", str(file_path))
 
     # Act
-    with pytest.raises(NotADirectoryError):
+    with pytest.raises(NotADirectoryError) as exc_info:
         files_mod.python_files_from_env("PY_SOURCE_DIR")
 
     # Assert
+    assert str(exc_info.value) == str(file_path)
 
