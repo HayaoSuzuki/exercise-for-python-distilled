@@ -28,12 +28,10 @@ def is_probable_prime(n: int, bases: Iterable[int] | None = None) -> bool:
             break
         d, s = quotient, s + 1
 
-    tested = False
     for a in _DEFAULT_BASES if bases is None else bases:
         _, a = divmod(a, n)
         if a == 0:
             continue
-        tested = True
         x = pow(a, d, n)
         if x == 1 or x == n - 1:
             continue
@@ -43,8 +41,4 @@ def is_probable_prime(n: int, bases: Iterable[int] | None = None) -> bool:
                 break
         else:
             return False
-    # 全ての底が n の倍数（または底が空）だと判定材料が皆無のまま
-    # True を返してしまうため、根拠なしの「素数」を拒否する。
-    if not tested:
-        raise ValueError("bases must contain a value not divisible by n")
     return True

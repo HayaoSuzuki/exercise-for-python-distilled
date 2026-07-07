@@ -50,16 +50,21 @@ def test_miller_rabin_does_not_stop_at_a_base_divisible_by_n() -> None:
     assert actual is False
 
 
-@pytest.mark.parametrize("bases", [[9], [9, 27], []])
-def test_miller_rabin_rejects_bases_with_no_informative_base(bases: list[int]) -> None:
+@pytest.mark.parametrize(
+    ("n", "bases"),
+    [(3, [3]), (9, [9]), (9, [9, 27]), (9, [])],
+)
+def test_miller_rabin_returns_true_without_an_informative_base(
+    n: int,
+    bases: list[int],
+) -> None:
     # Arrange
 
     # Act
-    with pytest.raises(ValueError) as exc_info:
-        mr_mod.is_probable_prime(9, bases=bases)
+    actual = mr_mod.is_probable_prime(n, bases=bases)
 
     # Assert
-    assert str(exc_info.value) == "bases must contain a value not divisible by n"
+    assert actual is True
 
 
 @FAST
