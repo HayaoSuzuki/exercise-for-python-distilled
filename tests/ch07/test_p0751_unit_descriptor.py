@@ -57,6 +57,22 @@ def test_measured_descriptor_rejects_non_quantity_value() -> None:
     assert str(exc_info.value) == "position expects a Quantity, got str"
 
 
+def test_measured_descriptor_reports_unset_attribute_as_missing() -> None:
+    # Arrange
+    length = (1, 0, 0)
+
+    class Particle:
+        position = unit_mod.Measured(length)
+
+    particle = Particle()
+
+    # Act
+    actual = hasattr(particle, "position")
+
+    # Assert
+    assert actual is False
+
+
 def test_quantity_equality_requires_matching_dimension() -> None:
     # Arrange
     length = (1, 0, 0)

@@ -21,6 +21,8 @@ def test_isqrt_returns_integer_square_root(n: int, expected: int) -> None:
     # Assert
     assert actual == expected
     assert isinstance(actual, int)
+    # bool は int の派生型なので、isinstance だけでは bool を返す実装を弾けない。
+    assert not isinstance(actual, bool)
 
 
 @FAST

@@ -21,11 +21,9 @@ def test_transpose_rejects_ragged_rows() -> None:
     matrix = ((1, 2, 3), (4, 5))
 
     # Act
-    with pytest.raises(ValueError) as exc_info:
+    # メッセージは zip(strict=True) が生成する処理系依存の文言なので検査しない。
+    with pytest.raises(ValueError):
         matrix_mod.transpose(matrix)
-
-    # Assert
-    assert str(exc_info.value) == "zip() argument 2 is shorter than argument 1"
 
 
 def test_mat_mul_returns_matrix_product() -> None:

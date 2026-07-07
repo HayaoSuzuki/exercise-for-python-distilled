@@ -50,6 +50,18 @@ def test_miller_rabin_does_not_stop_at_a_base_divisible_by_n() -> None:
     assert actual is False
 
 
+@pytest.mark.parametrize("bases", [[9], [9, 27], []])
+def test_miller_rabin_rejects_bases_with_no_informative_base(bases: list[int]) -> None:
+    # Arrange
+
+    # Act
+    with pytest.raises(ValueError) as exc_info:
+        mr_mod.is_probable_prime(9, bases=bases)
+
+    # Assert
+    assert str(exc_info.value) == "bases must contain a value not divisible by n"
+
+
 @FAST
 @given(st.integers(min_value=-1000, max_value=20_000))
 def test_miller_rabin_matches_trial_division_on_small_numbers(n: int) -> None:

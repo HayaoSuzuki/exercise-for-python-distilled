@@ -33,7 +33,7 @@ def test_parse_chunks_rejects_incomplete_header() -> None:
         chunks_mod.parse_chunks(data)
 
     # Assert
-    assert "チャンクヘッダが不完全" in str(exc_info.value)
+    assert str(exc_info.value) == "チャンクヘッダが不完全です（位置 0）"
 
 
 def test_parse_chunks_rejects_incomplete_header_after_first_chunk() -> None:
@@ -57,5 +57,5 @@ def test_parse_chunks_rejects_truncated_payload() -> None:
         chunks_mod.parse_chunks(data)
 
     # Assert
-    assert "ペイロード" in str(exc_info.value)
+    assert str(exc_info.value) == "ペイロードが宣言された長さ 10 に足りません（位置 8）"
 

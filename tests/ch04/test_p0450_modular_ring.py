@@ -120,6 +120,7 @@ def test_mod_pow_with_non_int_exponent_raises_type_error() -> None:
         value**2.5  # type: ignore[operator]
 
     # Assert
+    assert value == mod_ring.Mod(3, 7)
 
 
 def test_mod_eq_returns_false_when_moduli_differ_even_if_values_match() -> None:

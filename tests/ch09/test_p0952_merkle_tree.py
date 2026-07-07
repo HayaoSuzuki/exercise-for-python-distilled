@@ -103,10 +103,13 @@ def test_merkle_verify_rejects_malformed_hex_digest() -> None:
 
 def test_merkle_verify_rejects_wrong_length_sibling_digest() -> None:
     # Arrange
+    # 長さ検査を外すと検証が通ってしまう root をあえて与え、検査の有無を判別する。
+    short_sibling = bytes.fromhex("aa")
+    root = hashlib.sha256(short_sibling + hashlib.sha256(b"tx4").digest()).hexdigest()
     proof = [("L", "aa")]
 
     # Act
-    actual = merkle_mod.verify(b"tx4", proof, ROOT_FOR_FIVE_LEAVES)
+    actual = merkle_mod.verify(b"tx4", proof, root)
 
     # Assert
     assert actual is False
@@ -115,13 +118,12 @@ def test_merkle_verify_rejects_wrong_length_sibling_digest() -> None:
 def test_merkle_proof_accepts_lower_bound_index() -> None:
     # Arrange
     leaves = [b"tx0", b"tx1", b"tx2", b"tx3", b"tx4"]
-    root = merkle_mod.merkle_root(leaves)
 
     # Act
     proof = merkle_mod.merkle_proof(leaves, 0)
 
     # Assert
-    assert merkle_mod.verify(leaves[0], proof, root) is True
+    assert merkle_mod.verify(leaves[0], proof, ROOT_FOR_FIVE_LEAVES) is True
 
 
 @pytest.mark.parametrize("index", [-1, 5])

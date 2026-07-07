@@ -76,7 +76,9 @@ def test_bank_account_from_text_splits_only_on_first_colon() -> None:
         account_mod.BankAccount.from_text(text)
 
     # Assert
-    assert str(exc_info.value) == "invalid literal for int() with base 10: 'B:300'"
+    # 文言全体は int() が生成する処理系依存のものなので、最初のコロンで
+    # 分割された残り "B:300" が int() に渡ったことだけを検査する。
+    assert "B:300" in str(exc_info.value)
 
 
 def test_bank_account_rejects_negative_initial_balance() -> None:

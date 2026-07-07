@@ -16,7 +16,7 @@ from tests._helpers import FAST
         ("Aπ🐍", b"A\xcf\x80\xf0\x9f\x90\x8d"),
         ("ࠀ", b"\xe0\xa0\x80"),
         ("\U00010000", b"\xf0\x90\x80\x80"),
-        ("", b"\xee\x80\x80"),
+        ("\ue000", b"\xee\x80\x80"),
         ("\x7f", b"\x7f"),
         ("\x80", b"\xc2\x80"),
     ],
@@ -42,7 +42,7 @@ def test_utf8_encode_returns_expected_bytes(text: str, expected: bytes) -> None:
         (b"\xf4\x8f\xbf\xbf", "\U0010FFFF"),
         (b"\x7f", "\x7f"),
         (b"\xc2\x80", "\x80"),
-        (b"\xee\x80\x80", ""),
+        (b"\xee\x80\x80", "\ue000"),
     ],
 )
 def test_utf8_decode_returns_expected_text(data: bytes, expected: str) -> None:
@@ -83,10 +83,11 @@ def test_utf8_decode_matches_builtin_for_valid_bytes(text: str) -> None:
 @pytest.mark.parametrize(
     ("data", "expected_message"),
     [
-        (b"\x80", "不正な先頭バイト"),
-        (b"\xc0\x80", "overlong encoding"),
-        (b"\xe2\x28\xa1", "不正な継続バイト"),
-        (b"\xf0\x9f\x90", "継続バイトが不足"),
+        (b"\x80", "不正な先頭バイト 0x80（位置 0）"),
+        (b"A\x80", "不正な先頭バイト 0x80（位置 1）"),
+        (b"\xc0\x80", "overlong encoding（位置 0）"),
+        (b"\xe2\x28\xa1", "不正な継続バイト 0x28（位置 1）"),
+        (b"\xf0\x9f\x90", "継続バイトが不足しています（位置 0）"),
     ],
 )
 def test_utf8_decode_rejects_invalid_sequences(data: bytes, expected_message: str) -> None:
@@ -97,7 +98,7 @@ def test_utf8_decode_rejects_invalid_sequences(data: bytes, expected_message: st
         utf8_mod.utf8_decode(data)
 
     # Assert
-    assert expected_message in str(exc_info.value)
+    assert str(exc_info.value) == expected_message
 
 
 @pytest.mark.parametrize(

@@ -31,7 +31,11 @@ class Measured:
     def __get__(self, instance: object, cls: type | None = None) -> Measured | Quantity:
         if instance is None:
             return self
-        return instance.__dict__[self.name]
+        try:
+            return instance.__dict__[self.name]
+        except KeyError:
+            # KeyError のままだと hasattr()/getattr() が失敗を検知できない。
+            raise AttributeError(self.name) from None
 
     def __set__(self, instance: object, value: Quantity) -> None:
         if not isinstance(value, Quantity):

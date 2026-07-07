@@ -43,7 +43,7 @@ def test_riffle_rejects_odd_length_deck() -> None:
     assert str(exc_info.value) == "deck length must be even"
 
 
-@pytest.mark.parametrize("n", [1, 3])
+@pytest.mark.parametrize("n", [0, 1, 3])
 def test_shuffle_order_rejects_invalid_n(n: int) -> None:
     # Arrange
 

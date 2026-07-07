@@ -62,20 +62,23 @@ def test_disjoint_set_find_compresses_a_two_level_chain() -> None:
 
     # Assert
     assert actual == 0
+    # 圧縮は戻り値に現れないため、親配列が根へ張り替わったことを直接確かめる。
+    assert disjoint_set._parent[3] == 0  # noqa: SLF001
 
 
 def test_disjoint_set_union_uses_rank_to_choose_new_root() -> None:
     # Arrange
     disjoint_set = uf_mod.DisjointSet(8)
-    assert disjoint_set.union(0, 1) is True
-    assert disjoint_set.union(4, 5) is True
-    assert disjoint_set.union(6, 7) is True
-    assert disjoint_set.union(4, 6) is True
+    disjoint_set.union(0, 1)
+    disjoint_set.union(4, 5)
+    disjoint_set.union(6, 7)
+    disjoint_set.union(4, 6)
 
     # Act
-    assert disjoint_set.union(0, 4) is True
+    actual = disjoint_set.union(0, 4)
 
     # Assert
+    assert actual is True
     assert disjoint_set.find(0) == 4
 
 
